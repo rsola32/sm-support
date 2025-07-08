@@ -1,0 +1,7 @@
+# Dump
+```
+pg_dump -h localhost -p 5432 -d myskillmatrix -U postgres -F p  --inserts -E UTF-8 -f myskillmatrix.sql
+```
+
+# Utilities
+* https://runsql.com/?
