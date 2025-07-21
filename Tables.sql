@@ -129,9 +129,8 @@ CREATE TABLE familiarity_mapping (
   CONSTRAINT rating_mapping_employee_id_fkey FOREIGN KEY (employee_id) REFERENCES employee(employee_id)
 );
 
-CREATE VIEW course_subskills AS SELECT c.course_id, csm.skill_type,s.skill_id, ss.subskill_id FROM course_faculty_mapping cfm
-   INNER JOIN course c ON cfm.course_id = c.course_id
-   INNER JOIN course_skill_mapping csm ON csm.course_id = c.course_id
+CREATE VIEW course_subskills AS SELECT c.course_id, csm.skill_type,s.skill_id, ss.subskill_id FROM course_skill_mapping csm
+   INNER JOIN course c ON c.course_id = csm.course_id 
    INNER JOIN skill s ON s.skill_id = csm.skill_id 
    INNER JOIN subskill ss ON ss.skill_id = s.skill_id;
    
@@ -141,7 +140,7 @@ CREATE VIEW faculty_course_skill_familiarity AS SELECT e.employee_id, c.course_i
    INNER JOIN course_skill_mapping csm ON csm.course_id = c.course_id
    INNER JOIN skill s ON s.skill_id = csm.skill_id 
    INNER JOIN subskill ss ON ss.skill_id = s.skill_id        
-   LEFT JOIN familiarity_marking f ON f.subskill_id = ss.subskill_id;
+   LEFT JOIN familiarity_marking f ON f.subskill_id = ss.subskill_id WHERE f.erased=false;
    
 select pg_get_viewdef('course_subskills', true);
 select pg_get_viewdef('faculty_course_skill_familiarity', true);
